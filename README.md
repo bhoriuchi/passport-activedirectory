@@ -68,3 +68,9 @@ app.post('/resource', passport.authenticate('ActiveDirectory', opts), function(r
     * `req` { `Object` } - request object
     * `ad` { `Object` } - `ActiveDirectory` instance
     * `done` { `Function` } - Passport callback
+
+
+### More Information
+
+* For information on setting up integrated authentication with IIS and Apache, review the documentation at [`passport-windowsauth`](https://github.com/auth0/passport-windowsauth#integrated-authentication-iis)
+* For more information on ActiveDirectory methods review [`activedirectory`](https://github.com/gheeres/node-activedirectory)
