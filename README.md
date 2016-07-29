@@ -45,7 +45,7 @@ app.post('/resource', passport.authenticate('ActiveDirectory', opts), function(r
 #### ActiveDirectoryStrategy ( `options`, `verify` )
 
 * `options` { `Object` } - Options for connecting and verification
-  * [`integrated=true`] { `Boolean` } - Use windows integrated login
+  * [`integrated=true`] { `Boolean` } - Use windows integrated login. For username and password authentication set this to `false`
   * [`passReqToCallback=false`] { `Boolean` } - Pass the request to the callback
   * [`usernameField="username"`] { `String` } - request body field to use for the username
   * [`passwordField="password"`] { `String` } - request body field to use for the password
