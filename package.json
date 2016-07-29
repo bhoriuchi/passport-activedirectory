@@ -9,12 +9,9 @@
     "url": "git+https://github.com/bhoriuchi/passport-activedirectory.git"
   },
   "scripts": {
-    "buildexample": "npm run build && rollup example/example.js --output example/build.js --format cjs && node example/build.js --harmony",
-    "example": "node example/example.js",
     "build:copybrc": "cp build/.build.babelrc src/.babelrc",
     "build:rmbrc": "rm -f src/.babelrc",
-    "build": "npm run build:copybrc && rollup -c build/rollup.config.js && npm run build:rmbrc",
-    "test": "npm run build && mocha test/index.js"
+    "build": "npm run build:copybrc && rollup -c build/rollup.config.js && npm run build:rmbrc"
   },
   "author": "Branden Horiuchi <bhoriuchi@gmail.com>",
   "dependencies": {
