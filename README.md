@@ -16,6 +16,7 @@ var passport = require('passport')
 var ActiveDirectoryStrategy = require('passport-activedirectory')
 
 passport.use(new ActiveDirectoryStrategy({
+  integrated: false,
   ldap: {
     url: 'ldap://my.domain.com',
     baseDN: 'DC=my,DC=domain,DC=com',
@@ -33,11 +34,14 @@ passport.use(new ActiveDirectoryStrategy({
 
 ```js
 var opts = { failWithError: true }
-app.post('/resource', passport.authenticate('ActiveDirectory', opts), function(req, res) {
+app.post('/login', passport.authenticate('ActiveDirectory', opts), function(req, res) {
   res.json(req.user)
 }, function (err) {
   res.status(401).send('Not Authenticated')
 })
+
+// example request
+// > curl -H "Content-Type: application/json" -X POST -d '{"username":"xyz","password":"xyz"}' http://localhost/login
 ```
 
 ### API
