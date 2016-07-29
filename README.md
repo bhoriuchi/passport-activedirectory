@@ -10,6 +10,7 @@ The module works almost identically except that the `verify` function is passed 
 
 ### Example
 
+#### Setup
 ```js
 var passport = require('passport')
 var ActiveDirectoryStrategy = require('passport-activedirectory')
@@ -27,6 +28,16 @@ passport.use(new ActiveDirectoryStrategy({
     return done(null, profile)
   })
 }))
+```
+#### Protecting a path
+
+```js
+var opts = { failWithError: true }
+app.post('/resource', passport.authenticate('ActiveDirectory', opts), function(req, res) {
+  res.json(req.user)
+}, function (err) {
+  res.status(401).send('Not Authenticated')
+})
 ```
 
 ### API
