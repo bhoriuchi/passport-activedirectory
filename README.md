@@ -34,7 +34,7 @@ passport.use(new ActiveDirectoryStrategy({
 #### ActiveDirectoryStrategy ( `options`, `verify` )
 
 * `options` { `Object` } - Options for connecting and verification
-  * [`integrated=false`] { `Boolean` } - Use windows integrated login
+  * [`integrated=true`] { `Boolean` } - Use windows integrated login
   * [`passReqToCallback=false`] { `Boolean` } - Pass the request to the callback
   * [`usernameField="username"`] { `String` } - request body field to use for the username
   * [`passwordField="password"`] { `String` } - request body field to use for the password
