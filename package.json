@@ -1,0 +1,45 @@
+{
+  "name": "passport-activedirectory",
+  "version": "1.0.0",
+  "description": "Active Directory strategy for passport.js",
+  "license": "MIT",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bhoriuchi/passport-activedirectory.git"
+  },
+  "scripts": {
+    "buildexample": "npm run build && rollup example/example.js --output example/build.js --format cjs && node example/build.js --harmony",
+    "example": "node example/example.js",
+    "build:copybrc": "cp build/.build.babelrc src/.babelrc",
+    "build:rmbrc": "rm -f src/.babelrc",
+    "build": "npm run build:copybrc && rollup -c build/rollup.config.js && npm run build:rmbrc",
+    "test": "npm run build && mocha test/index.js"
+  },
+  "author": "Branden Horiuchi <bhoriuchi@gmail.com>",
+  "dependencies": {
+    "activedirectory": "^0.7.0",
+    "passport": "^0.3.0"
+  },
+  "devDependencies": {
+    "rollup": "^0.31.2",
+    "rollup-plugin-babel": "^2.5.1",
+    "babel-preset-es2015-rollup": "^1.1.1"
+  },
+  "bugs": {
+    "url": "https://github.com/bhoriuchi/passport-activedirectory/issues"
+  },
+  "homepage": "https://github.com/bhoriuchi/passport-activedirectory#readme",
+  "directories": {
+    "example": "example"
+  },
+  "keywords": [
+    "passport",
+    "active",
+    "directory",
+    "ad",
+    "ldap",
+    "authentication",
+    "strategy"
+  ]
+}
