@@ -58,8 +58,9 @@ function Strategy (options, verify) {
     this._usernameField = options.usernameField || DEFAULT_USERNAME_FIELD;
     this._passwordField = options.passwordField || DEFAULT_PASSWORD_FIELD;
   }
-
-  this._ad = new ActiveDirectory(options.ldap)
+  
+  if (typeof this._ad !== 'function') { this._ad = options.ldap }
+  else { this._ad = new ActiveDirectory(options.ldap) }
 }
 
 util.inherits(Strategy, passport.Strategy)
