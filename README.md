@@ -46,7 +46,7 @@ app.post('/login', passport.authenticate('ActiveDirectory', opts), function(req,
 
 #### Optionally reuse an existing instance of `activedirectory`
 
-```
+```js
 var passport = require('passport')
 var ActiveDirectoryStrategy = require('passport-activedirectory')
 var ActiveDirectory = require('activedirectory')
