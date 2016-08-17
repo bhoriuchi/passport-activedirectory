@@ -24,7 +24,7 @@ passport.use(new ActiveDirectoryStrategy({
     password: 'readuserspassword'
   }
 }, function (profile, ad, done) {
-  ad.isMemberOf(profile._json.dn, 'AccessGroup', function (err, isMember) {
+  ad.isUserMemberOf(profile._json.dn, 'AccessGroup', function (err, isMember) {
     if (err) return done(err)
     return done(null, profile)
   })
@@ -44,6 +44,31 @@ app.post('/login', passport.authenticate('ActiveDirectory', opts), function(req,
 // > curl -H "Content-Type: application/json" -X POST -d '{"username":"xyz","password":"xyz"}' http://localhost/login
 ```
 
+#### Optionally reuse an existing instance of `activedirectory`
+
+```
+var passport = require('passport')
+var ActiveDirectoryStrategy = require('passport-activedirectory')
+var ActiveDirectory = require('activedirectory')
+
+var ad = new ActiveDirectory({
+  url: 'ldap://my.domain.com',
+  baseDN: 'DC=my,DC=domain,DC=com',
+  username: 'readuser@my.domain.com',
+  password: 'readuserspassword'
+})
+
+passport.use(new ActiveDirectoryStrategy({
+  integrated: false,
+  ldap: ad
+}, function (profile, ad, done) {
+  ad.isUserMemberOf(profile._json.dn, 'AccessGroup', function (err, isMember) {
+    if (err) return done(err)
+    return done(null, profile)
+  })
+}))
+```
+
 ### API
 
 #### ActiveDirectoryStrategy ( `options`, `verify` )
@@ -54,7 +79,7 @@ app.post('/login', passport.authenticate('ActiveDirectory', opts), function(req,
   * [`usernameField="username"`] { `String` } - request body field to use for the username
   * [`passwordField="password"`] { `String` } - request body field to use for the password
   * [`mapProfile`] { `Function` } - Custom profile mapping function. Takes user object as only parameter and returns a profile object. `_json` is added to the object with the full object
-  * [`ldap`] { `Object` } - LDAP connection object. Extended properties are documented [here](https://github.com/gheeres/node-activedirectory#optional-parameters--extended-functionality)
+  * [`ldap`] { `Object` | `ActiveDirectory` } - LDAP connection object. Extended properties are documented [here](https://github.com/gheeres/node-activedirectory#optional-parameters--extended-functionality). You may also supply an instance of `activedirectory` instead.
     * `url` { `String` } - LDAP URL (e.g. `ldap://my.domain.com`)
     * `baseDN` { `String` } - Base LDAP DN to search for users in
     * `username` { `String` } - User name of account with access to search the directory
