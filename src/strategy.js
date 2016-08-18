@@ -138,9 +138,10 @@ Strategy.prototype.authenticate = function (req, options = {}) {
 
     return this._ad.find({ filter, attributes }, (err, results) => {
       if (err) return this.error(err)
-      let users = results.users
-      if (!Array.isArray(users) || !users.length) return this.fail(`The user "${username}" was not found`)
-      let userProfile = this.mapProfile(users[0])
+      if (!results || !results.users || !Array.isArray(results.users) || !results.users.length) {
+        return this.fail(`The user "${username}" was not found`)
+      }
+      let userProfile = this.mapProfile(results.users[0])
       return this._integrated ? verify(userProfile) : auth(userProfile)
     })
   }

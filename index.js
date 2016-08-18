@@ -139,9 +139,10 @@ Strategy.prototype.authenticate = function (req) {
 
     return this._ad.find({ filter: filter, attributes: attributes }, function (err, results) {
       if (err) return _this.error(err);
-      var users = results.users;
-      if (!Array.isArray(users) || !users.length) return _this.fail('The user "' + username + '" was not found');
-      var userProfile = _this.mapProfile(users[0]);
+      if (!results || !results.users || !Array.isArray(results.users) || !results.users.length) {
+        return _this.fail('The user "' + username + '" was not found');
+      }
+      var userProfile = _this.mapProfile(results.users[0]);
       return _this._integrated ? verify(userProfile) : auth(userProfile);
     });
   }

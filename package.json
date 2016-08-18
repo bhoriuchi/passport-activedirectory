@@ -1,6 +1,6 @@
 {
   "name": "passport-activedirectory",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Active Directory strategy for passport.js",
   "license": "MIT",
   "main": "index.js",
