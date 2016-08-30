@@ -53,7 +53,7 @@ function Strategy(options, verify) {
     this._passwordField = options.passwordField || DEFAULT_PASSWORD_FIELD;
   }
 
-  this._ad = typeof options.ldap === 'function' ? options.ldap : new ActiveDirectory(options.ldap);
+  this._ad = options.ldap instanceof ActiveDirectory ? options.ldap : new ActiveDirectory(options.ldap);
 }
 
 util.inherits(Strategy, passport.Strategy);

@@ -1,6 +1,6 @@
 {
   "name": "passport-activedirectory",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Active Directory strategy for passport.js",
   "license": "MIT",
   "main": "index.js",
@@ -19,9 +19,9 @@
     "passport": "^0.3.0"
   },
   "devDependencies": {
-    "rollup": "^0.31.2",
-    "rollup-plugin-babel": "^2.5.1",
-    "babel-preset-es2015-rollup": "^1.1.1"
+    "rollup": "^0.34.10",
+    "rollup-plugin-babel": "^2.6.1",
+    "babel-preset-es2015-rollup": "^1.2.0"
   },
   "bugs": {
     "url": "https://github.com/bhoriuchi/passport-activedirectory/issues"
