@@ -4,7 +4,7 @@ function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'defau
 
 var util = _interopDefault(require('util'));
 var passport = _interopDefault(require('passport'));
-var ActiveDirectory = _interopDefault(require('activedirectory'));
+var ActiveDirectory = _interopDefault(require('activedirectory2'));
 
 /*
  * modified version of passport-windowsauth (https://github.com/auth0/passport-windowsauth)
