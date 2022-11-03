@@ -16,7 +16,7 @@
   "author": "Branden Horiuchi <bhoriuchi@gmail.com>",
   "dependencies": {
     "activedirectory2": "^2.1.0",
-    "passport": "^0.3.0"
+    "passport": "^0.6.0"
   },
   "devDependencies": {
     "rollup": "^0.34.10",
