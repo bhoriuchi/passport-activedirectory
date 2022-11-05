@@ -1,6 +1,6 @@
 import util from 'util'
 import passport from 'passport'
-import ActiveDirectory from 'activedirectory'
+import ActiveDirectory from 'activedirectory2'
 
 /*
  * modified version of passport-windowsauth (https://github.com/auth0/passport-windowsauth)

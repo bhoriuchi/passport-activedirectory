@@ -84,9 +84,9 @@ Strategy.prototype.mapProfile = function (i) {
 Strategy.prototype.authenticate = function (req) {
   var _this = this;
 
-  var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-  var username = null;
-  var password = null;
+  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  var username = null,
+      password = null;
 
   // get username and password
 
