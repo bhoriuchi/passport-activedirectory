@@ -123,7 +123,7 @@ Strategy.prototype.authenticate = function (req) {
     return _this._ad.authenticate(userProfile._json.dn, password, function (err, auth) {
       var authFailureMessage = 'Authentication failed for ' + username;
       if (err) {
-        return err.prototype.name === 'InvalidCredentialsError' ? _this.fail(authFailureMessage + ': [' + err.message + ']') : _this.error(err);
+        return err.name === 'InvalidCredentialsError' ? _this.fail('' + authFailureMessage) : _this.error(err);
       }
       if (!auth) return _this.fail(authFailureMessage);
       return verify(userProfile);
