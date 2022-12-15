@@ -122,8 +122,8 @@ Strategy.prototype.authenticate = function (req, options = {}) {
     return this._ad.authenticate(userProfile._json.dn, password, (err, auth) => {
       const authFailureMessage = `Authentication failed for ${username}`
       if (err) {
-        return err.prototype.name === 'InvalidCredentialsError'
-          ? this.fail(`${authFailureMessage}: [${err.message}]`)
+        return err.name === 'InvalidCredentialsError'
+          ? this.fail(`${authFailureMessage}`)
           : this.error(err)
       }
       if (!auth) return this.fail(authFailureMessage)
