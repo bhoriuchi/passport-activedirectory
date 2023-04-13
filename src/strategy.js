@@ -14,6 +14,7 @@ import ActiveDirectory from 'activedirectory2'
  *
  */
 
+const DEFAULT_GROUP_VALUE = 'users'
 const DEFAULT_USERNAME_FIELD = 'username'
 const DEFAULT_PASSWORD_FIELD = 'password'
 const DEFAULT_ATTRS = [
@@ -56,6 +57,7 @@ function Strategy (options, verify) {
   this._passReqToCallback = options.passReqToCallback
   this._integrated = options.integrated === false ? options.integrated : true
   this._getUserNameFromHeader = options.getUserNameFromHeader || getUserNameFromHeader
+  this._group = options.group;
 
   if (!this._integrated) {
     this._usernameField = options.usernameField || DEFAULT_USERNAME_FIELD;
@@ -136,7 +138,7 @@ Strategy.prototype.authenticate = function (req, options = {}) {
 
   // look for the user if using ldap auth
   if (this._ad) {
-    const group = req.body.group || req.query.group || 'users';
+    const group = req.body.group || req.query.group || this._group || DEFAULT_GROUP_VALUE;
     let ldap = this._options.ldap
     let filter = (typeof ldap.filter === 'function') ? ldap.filter(username) : DEFAULT_FILTER(username)
     let attributes = ldap.attributes || DEFAULT_ATTRS
