@@ -17,15 +17,18 @@ import ActiveDirectory from 'activedirectory2'
 const DEFAULT_USERNAME_FIELD = 'username'
 const DEFAULT_PASSWORD_FIELD = 'password'
 const DEFAULT_ATTRS = [
+  'cn',
   'dn',
+  'sn',
   'displayName',
   'givenName',
-  'sn',
   'title',
   'userPrincipalName',
   'sAMAccountName',
   'mail',
-  'description'
+  'description',
+  'telephoneNumber',
+  'memberOf'
 ]
 
 const DEFAULT_FILTER = (username) => {
@@ -133,6 +136,7 @@ Strategy.prototype.authenticate = function (req, options = {}) {
 
   // look for the user if using ldap auth
   if (this._ad) {
+    const group = req.body.group || req.query.group || 'users';
     let ldap = this._options.ldap
     let filter = (typeof ldap.filter === 'function') ? ldap.filter(username) : DEFAULT_FILTER(username)
     let attributes = ldap.attributes || DEFAULT_ATTRS
@@ -143,10 +147,10 @@ Strategy.prototype.authenticate = function (req, options = {}) {
 
     return this._ad.find({ filter, attributes }, (err, results) => {
       if (err) return this.error(err)
-      if (!results || !results.users || !Array.isArray(results.users) || !results.users.length) {
+      if (!results || !results[group] || !Array.isArray(results[group]) || !results[group].length) {
         return this.fail(`The user "${username}" was not found`)
       }
-      let userProfile = this.mapProfile(results.users[0])
+      let userProfile = this.mapProfile(results[group][0])
       return this._integrated ? verify(userProfile) : auth(userProfile)
     })
   }

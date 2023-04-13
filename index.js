@@ -20,7 +20,7 @@ var ActiveDirectory = _interopDefault(require('activedirectory2'));
 
 var DEFAULT_USERNAME_FIELD = 'username';
 var DEFAULT_PASSWORD_FIELD = 'password';
-var DEFAULT_ATTRS = ['dn', 'displayName', 'givenName', 'sn', 'title', 'userPrincipalName', 'sAMAccountName', 'mail', 'description'];
+var DEFAULT_ATTRS = ['cn', 'dn', 'sn', 'displayName', 'givenName', 'title', 'userPrincipalName', 'sAMAccountName', 'mail', 'description', 'telephoneNumber', 'memberOf'];
 
 var DEFAULT_FILTER = function DEFAULT_FILTER(username) {
   return '(&(objectclass=user)(|(sAMAccountName=' + username + ')(UserPrincipalName=' + username + ')))';
@@ -132,6 +132,7 @@ Strategy.prototype.authenticate = function (req) {
 
   // look for the user if using ldap auth
   if (this._ad) {
+    var group = req.body.group || req.query.group || 'users';
     var ldap = this._options.ldap;
     var filter = typeof ldap.filter === 'function' ? ldap.filter(username) : DEFAULT_FILTER(username);
     var attributes = ldap.attributes || DEFAULT_ATTRS;
@@ -142,10 +143,10 @@ Strategy.prototype.authenticate = function (req) {
 
     return this._ad.find({ filter: filter, attributes: attributes }, function (err, results) {
       if (err) return _this.error(err);
-      if (!results || !results.users || !Array.isArray(results.users) || !results.users.length) {
+      if (!results || !results[group] || !Array.isArray(results[group]) || !results[group].length) {
         return _this.fail('The user "' + username + '" was not found');
       }
-      var userProfile = _this.mapProfile(results.users[0]);
+      var userProfile = _this.mapProfile(results[group][0]);
       return _this._integrated ? verify(userProfile) : auth(userProfile);
     });
   }
