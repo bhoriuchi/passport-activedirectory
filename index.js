@@ -18,6 +18,7 @@ var ActiveDirectory = _interopDefault(require('activedirectory2'));
  *
  */
 
+var DEFAULT_GROUP_VALUE = 'users';
 var DEFAULT_USERNAME_FIELD = 'username';
 var DEFAULT_PASSWORD_FIELD = 'password';
 var DEFAULT_ATTRS = ['cn', 'dn', 'sn', 'displayName', 'givenName', 'title', 'userPrincipalName', 'sAMAccountName', 'mail', 'description', 'telephoneNumber', 'memberOf'];
@@ -47,6 +48,7 @@ function Strategy(options, verify) {
   this._passReqToCallback = options.passReqToCallback;
   this._integrated = options.integrated === false ? options.integrated : true;
   this._getUserNameFromHeader = options.getUserNameFromHeader || getUserNameFromHeader;
+  this._group = options.group;
 
   if (!this._integrated) {
     this._usernameField = options.usernameField || DEFAULT_USERNAME_FIELD;
@@ -132,7 +134,7 @@ Strategy.prototype.authenticate = function (req) {
 
   // look for the user if using ldap auth
   if (this._ad) {
-    var group = req.body.group || req.query.group || 'users';
+    var group = req.body.group || req.query.group || this._group || DEFAULT_GROUP_VALUE;
     var ldap = this._options.ldap;
     var filter = typeof ldap.filter === 'function' ? ldap.filter(username) : DEFAULT_FILTER(username);
     var attributes = ldap.attributes || DEFAULT_ATTRS;
