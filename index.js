@@ -53,7 +53,18 @@ function Strategy(options, verify) {
     this._passwordField = options.passwordField || DEFAULT_PASSWORD_FIELD;
   }
 
-  this._ad = options.ldap instanceof ActiveDirectory ? options.ldap : new ActiveDirectory(options.ldap);
+  if (options.ldap instanceof ActiveDirectory) {
+    this._ad = options.ldap;
+  } else {
+    if (this._options.ldap.attributes) {
+      if (typeof (this._options.ldap.attributes) === 'string') {
+        this._options.ldap.attributes = { user: [this._options.ldap.attributes] }
+      } else if (Array.isArray(this._options.ldap.attributes)) {
+        this._options.ldap.attributes = { user: this._options.ldap.attributes }
+      }
+    }
+    this._ad = new ActiveDirectory(this._options.ldap);
+  }
 }
 
 util.inherits(Strategy, passport.Strategy);
@@ -134,7 +145,7 @@ Strategy.prototype.authenticate = function (req) {
   if (this._ad) {
     var ldap = this._options.ldap;
     var filter = typeof ldap.filter === 'function' ? ldap.filter(username) : DEFAULT_FILTER(username);
-    var attributes = ldap.attributes || DEFAULT_ATTRS;
+    var attributes = (ldap.attributes && ldap.attributes.user) || DEFAULT_ATTRS;
     attributes = Array.isArray(attributes) ? attributes : [attributes];
 
     // require the dn attribute which will be used during authentication
